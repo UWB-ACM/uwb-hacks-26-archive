@@ -5,6 +5,7 @@ import Link from "next/link";
 import "../../styles/header.css";
 import Image from "next/image";
 import Logo from "@/public/Logo.png";
+import { asset } from "@/src/util/asset";
 // import DesktopBanner from "./DesktopBanner";
 // import MobileBanner from "./MobileBanner";
 
@@ -212,7 +213,7 @@ function HeaderSidebarButton({
                 }}
             >
                 <Image
-                    src="/header/menu-icon.svg"
+                    src={asset("/header/menu-icon.svg")}
                     width={35}
                     height={35}
                     alt="Side Nav"
@@ -308,17 +309,4 @@ function HeaderSidebar({
             </div>
         </div>
     );
-}
-
-export async function handleLogout() {
-    try {
-        const response = await fetch("/api/logout", { method: "POST" });
-        if (response.ok) {
-            window.location.href = "/"; // Redirect to the main page after logout
-        } else {
-            console.error("Failed to log out");
-        }
-    } catch (error) {
-        console.error("Error during logout:", error);
-    }
 }

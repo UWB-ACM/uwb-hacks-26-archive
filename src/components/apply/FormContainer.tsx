@@ -5,7 +5,6 @@ import FormBody from "./FormBody";
 import Image from "next/image";
 import GrassBackground from "@/public/Grass.svg";
 import { ApplicationData } from "@/src/util/dataTypes";
-import { actionSaveApplication } from "@/src/util/actions/application";
 import ConfirmSubmit from "./ConfirmSubmit";
 
 export default function ApplicationForm({
@@ -22,15 +21,11 @@ export default function ApplicationForm({
 
     const onSubmit = async (
         data: ApplicationData,
-        resumeFile: File | null,
-        deleteResume: boolean,
+        _resumeFile: File | null,
+        _deleteResume: boolean,
     ) => {
-        const formData = new FormData();
-        formData.set("applicationData", JSON.stringify(data));
-        if (resumeFile) formData.set("resume", resumeFile);
-        if (deleteResume) formData.set("deleteResume", "true");
-
-        await actionSaveApplication(formData);
+        // Applications are closed on the archived site; there is no backend to
+        // save to, so we just show the confirmation screen locally.
         setIsSubmitted(true);
         setLastSubmitted(data);
     };

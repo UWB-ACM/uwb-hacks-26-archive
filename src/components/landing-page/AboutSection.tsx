@@ -35,7 +35,6 @@ import Leaderboard from "./(AboutSectionComponents)/leaderboard/Leaderboard";
 
 import PrevWinners from "./(AboutSectionComponents)/PrevWinners/PrevWinners";
 
-import { actionClaimEasterEgg1010 } from "@/src/util/actions/transactions";
 import {
     Dialog,
     DialogContent,
@@ -71,9 +70,6 @@ export default function AboutSection({
 
     // Track pressed state (clouds in order).
     const pressedRef = useRef([false, false, false, false]);
-    const [easterEggPopup, setEasterEggPopup] = useState<
-        "success" | "not-signed-in"
-    >("success");
     const [easterEggOpen, setEasterEggOpen] = useState(false);
     const claimingRef = useRef(false);
 
@@ -85,18 +81,9 @@ export default function AboutSection({
             if (claimingRef.current) return;
             claimingRef.current = true;
 
-            const result = await actionClaimEasterEgg1010();
-            if (result === "success") {
-                setEasterEggPopup("success");
-                setEasterEggOpen(true);
-            } else if (result === null) {
-                setEasterEggPopup("not-signed-in");
-                setEasterEggOpen(true);
-            } else {
-                // If they already claimed it, do nothing, since they
-                // already received their reward.
-                setEasterEggOpen(false);
-            }
+            // In the static archive there's no account to credit, so the
+            // easter egg simply shows its celebratory popup.
+            setEasterEggOpen(true);
 
             claimingRef.current = false;
         }
@@ -414,30 +401,16 @@ export default function AboutSection({
                             </span>
                         </AlertDialogDescription>
                     </AlertDialogHeader>
-                    {easterEggPopup === "success" ? (
-                        <p className="text-center text-green-600 font-semibold">
-                            50 Hackeroons added to your account!
-                        </p>
-                    ) : (
-                        <p className="text-center text-amber-600 font-semibold">
-                            Sign in, then try again to claim your Hackeroons!
-                        </p>
-                    )}
+                    <p className="text-center text-green-600 font-semibold">
+                        Nicely spotted!
+                    </p>
                     <AlertDialogFooter className="sm:justify-center">
-                        {easterEggPopup === "success" ? (
-                            <button
-                                className="bg-[#0d83db] hover:bg-[#0a6ab8] text-white font-bold py-2 px-8 rounded-full transition-colors"
-                                onClick={() => setEasterEggOpen(false)}
-                            >
-                                Nice!
-                            </button>
-                        ) : (
-                            <Link href="/api/auth/google">
-                                <button className="bg-[#0d83db] hover:bg-[#0a6ab8] text-white font-bold py-2 px-8 rounded-full transition-colors">
-                                    Sign In
-                                </button>
-                            </Link>
-                        )}
+                        <button
+                            className="bg-[#0d83db] hover:bg-[#0a6ab8] text-white font-bold py-2 px-8 rounded-full transition-colors"
+                            onClick={() => setEasterEggOpen(false)}
+                        >
+                            Nice!
+                        </button>
                     </AlertDialogFooter>
                 </AlertDialogContent>
             </AlertDialog>

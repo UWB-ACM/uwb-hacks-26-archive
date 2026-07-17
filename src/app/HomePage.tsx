@@ -15,13 +15,11 @@ import ScheduleSection from "../components/landing-page/ScheduleSection";
 type HomePageProps = {
     hackeroonPrizes: Promise<Prize[]>;
     leaderboardData: Promise<LeaderboardRecord[]>;
-    isJudge: Promise<boolean>;
 };
 
 export default function HomePage({
     hackeroonPrizes,
     leaderboardData,
-    isJudge,
 }: HomePageProps) {
     return (
         <div className="flex flex-col items-center overflow-hidden">
@@ -43,7 +41,7 @@ export default function HomePage({
                     />
 
                     <div className="bg-[linear-gradient(180deg,#0d83db_0%,#14c5f8_15%,#ffffff_100%)]">
-                        <HeroSection isJudge={isJudge} />
+                        <HeroSection />
                         <AboutSection
                             hackeroonPrizes={hackeroonPrizes}
                             leaderboardData={leaderboardData}

@@ -1,10 +1,4 @@
-import { NextResponse } from "next/server";
-import { daysUntilEvent } from "@/src/util/date";
-
-export async function GET() {
-    const daysLeft = daysUntilEvent();
-
-    const svg = `<svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="1100" height="88" viewBox="0 0 291 23">
+<svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="1100" height="88" viewBox="0 0 291 23">
   <defs>
     <path id="a" d="M449.08 576.65h180.68v68.27H449.08z"/>
     <path id="b" d="M449.08 576.65h180.68v68.27H449.08z"/>
@@ -80,15 +74,7 @@ export async function GET() {
     <rect width="4.77" height="3.18" x="34.43" y="151.33" ry=".55" style="fill:#404040;fill-opacity:1;stroke:none;stroke-width:.794;stroke-dasharray:none"/>
     <rect width="4.77" height="3.18" x="39.98" y="151.33" ry=".55" style="fill:#404040;fill-opacity:1;stroke:none;stroke-width:.794;stroke-dasharray:none"/>
   </g>
-  <text xml:space="preserve" style="font-weight:250;font-size:53.3333px;font-family:Roboto;-inkscape-font-specification:&quot;Roboto weight=250&quot;;writing-mode:lr-tb;direction:ltr;white-space:pre;shape-inside:url(#a);shape-padding:.194779;display:inline;fill:#505050;fill-opacity:1;stroke:none;stroke-width:3.00094;stroke-dasharray:none" transform="translate(31.75 -149.97) scale(.26458)"><tspan x="449.28" y="625.88"><tspan style="font-weight:700;-inkscape-font-specification:&quot;Roboto Bold&quot;">${daysLeft}</tspan></tspan></text>
-  <text xml:space="preserve" style="font-weight:250;font-size:53.3333px;font-family:Roboto;-inkscape-font-specification:&quot;Roboto weight=250&quot;;writing-mode:lr-tb;direction:ltr;white-space:pre;shape-inside:url(#b);shape-padding:.194779;display:inline;fill:#505050;fill-opacity:1;stroke:none;stroke-width:3.00094;stroke-dasharray:none" transform="translate(77.83 -151.14) scale(.26458)"><tspan x="449.28" y="625.88"><tspan style="font-weight:700;-inkscape-font-specification:&quot;Roboto Bold&quot;">${daysLeft === 1 ? "Day" : "Days"}</tspan></tspan></text>
+  <text xml:space="preserve" style="font-weight:250;font-size:53.3333px;font-family:Roboto;-inkscape-font-specification:&quot;Roboto weight=250&quot;;writing-mode:lr-tb;direction:ltr;white-space:pre;shape-inside:url(#a);shape-padding:.194779;display:inline;fill:#505050;fill-opacity:1;stroke:none;stroke-width:3.00094;stroke-dasharray:none" transform="translate(31.75 -149.97) scale(.26458)"><tspan x="449.28" y="625.88"><tspan style="font-weight:700;-inkscape-font-specification:&quot;Roboto Bold&quot;">0</tspan></tspan></text>
+  <text xml:space="preserve" style="font-weight:250;font-size:53.3333px;font-family:Roboto;-inkscape-font-specification:&quot;Roboto weight=250&quot;;writing-mode:lr-tb;direction:ltr;white-space:pre;shape-inside:url(#b);shape-padding:.194779;display:inline;fill:#505050;fill-opacity:1;stroke:none;stroke-width:3.00094;stroke-dasharray:none" transform="translate(77.83 -151.14) scale(.26458)"><tspan x="449.28" y="625.88"><tspan style="font-weight:700;-inkscape-font-specification:&quot;Roboto Bold&quot;">Days</tspan></tspan></text>
   <text xml:space="preserve" style="font-weight:250;font-size:53.3333px;font-family:Roboto;-inkscape-font-specification:&quot;Roboto weight=250&quot;;writing-mode:lr-tb;direction:ltr;white-space:pre;shape-inside:url(#c);shape-padding:.194779;display:inline;fill:#505050;fill-opacity:1;stroke:none;stroke-width:3.00094;stroke-dasharray:none" transform="translate(133.45 -151.14) scale(.26458)"><tspan x="449.28" y="625.88"><tspan style="font-weight:700;-inkscape-font-specification:&quot;Roboto Bold&quot;">Left</tspan></tspan></text>
-</svg>`;
-
-    return new NextResponse(svg, {
-        headers: {
-            "Content-Type": "image/svg+xml",
-            "Cache-Control": "public, max-age=3600, must-revalidate",
-        },
-    });
-}
+</svg>

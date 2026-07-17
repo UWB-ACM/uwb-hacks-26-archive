@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { CommitteeMember } from "./Committees";
+import { asset } from "@/src/util/asset";
 
 interface CommitteeMemberIconProps {
     idx: number;
@@ -26,7 +27,7 @@ const CommitteeMemberIcon = ({
             aria-label={committeeMember.name}
         >
             <Image
-                src={committeeMember.image_path}
+                src={asset(committeeMember.image_path)}
                 alt={committeeMember.name}
                 className="object-cover"
                 fill

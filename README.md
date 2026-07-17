@@ -1,65 +1,74 @@
-# UWB Hacks 2026 Website
+# UWB Hacks 2026 Website — Static Archive
 
-https://uwbhacks.com
+This is an **archived, static snapshot** of the UWB Hacks 2026 website
+(originally https://uwbhacks.com), adapted to deploy on GitHub Pages.
 
-This is the website for UWB Hacks 2026. It uses the following technologies:
+The live site was a full-stack app (Google OAuth, PostgreSQL, AWS S3/SES,
+Upstash Redis, server actions on Vercel). All of that server-side code has been
+removed. What remains is only static content:
 
-- Next.js
+- Next.js (static export via `output: "export"`)
 - React
 - TypeScript
 - Tailwind CSS
 - shadcn/ui
-- NodeJS
-- PostgreSQL
-- Vercel
+
+Dynamic data that used to come from the database — the leaderboard, the
+Hackeroon Shop prizes, and the dashboard's user info — is now served from a
+hardcoded snapshot in [`src/data/archive.ts`](src/data/archive.ts). Replace the
+placeholder values there with real end-of-event data if you have it.
+
+Interactive, backend-dependent features (login, applications, check-in, account
+deletion, judging, staff/admin tooling) have been removed or stubbed out so the
+pages still render but perform no server calls.
 
 ---
 
 ## Getting Started
 
-Before getting started, make sure you have the `pnpm` package manager installed. See instructions here: https://pnpm.io/installation.
-
-First, install all dependencies:
+Make sure you have the `pnpm` package manager installed
+(see https://pnpm.io/installation), then install dependencies:
 
 ```bash
-pnpm install .
+pnpm install
 ```
 
-If you get a message like "Ignored build scripts", you may have to run `pnpm approve-builds`.
-
-Second, in the root directory, create a .env.local file. If you are part of the Hackathon planning team, ask the Digital Experience lead for the contents of that file to paste in.
-
-Third, run the development server:
+Run the development server:
 
 ```bash
 pnpm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) to view it. No `.env.local`
+is required — the archive has no backend.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Building the static site
 
-## Keeping consistent formatting with prettier
+```bash
+pnpm run build
+```
 
-Before pushing your changes, please make sure to run the following command:
+This emits a fully static site into the `out/` directory.
+
+## Deployment (GitHub Pages)
+
+Deployment is automated by
+[`.github/workflows/deploy.yml`](.github/workflows/deploy.yml): on every push to
+`main` it builds the static export and publishes it to GitHub Pages.
+
+To enable it, in the repository settings go to **Settings → Pages** and set the
+source to **GitHub Actions**.
+
+Because the site is served from a project subpath
+(`https://<user>.github.io/<repo>/`), the workflow sets the `PAGES_BASE_PATH`
+environment variable to the repo name so all asset URLs resolve correctly. If
+you instead deploy to a custom domain or a user/org root site, remove that env
+var (or leave it empty) and add a `CNAME` file to `public/`.
+
+## Formatting
+
+Before pushing, format your changes:
 
 ```bash
 npx prettier --write .
 ```
-
-## Branching
-
-Ensure that you are on your own branch and do not push to origin/main
-Also, please delete unused branches you are no longer using.
-
-If you find that your local git environment has too many dead branches that are no longer on the remote repository, you can run the following command to remove them.
-
-```bash
-git remote prune origin
-```
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.

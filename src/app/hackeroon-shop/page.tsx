@@ -1,21 +1,17 @@
 import PrizeCard from "@/src/components/dashboards/staff/PrizeCard";
 import React from "react";
-import { getPrizes } from "@/src/util/db/prize";
+import { snapshotPrizes } from "@/src/data/archive";
 import { Metadata } from "next";
 import Header from "@/src/components/header/Header";
 import Footer from "@/src/components/Footer";
-import LinkButton from "@/src/components/dashboards/userdashboard/LinkButton";
 
 export const metadata: Metadata = {
     title: "Hackeroon Shop | UWB Hacks 26",
 };
 
-export default async function PrizesPage() {
-    // The catch is to let this work in builds without databases.
-    const prizes = await getPrizes().catch((e) => {
-        console.error(e);
-        return [];
-    });
+export default function PrizesPage() {
+    // Prizes come from the static archive snapshot instead of the database.
+    const prizes = [...snapshotPrizes];
 
     prizes.sort((a, b) => {
         if (a.price < b.price) {
@@ -30,11 +26,6 @@ export default async function PrizesPage() {
         <div className="w-full min-h-full flex flex-col">
             <Header
                 links={[
-                    {
-                        id: "hackeroon-guide",
-                        name: "Hackeroon Guide",
-                        url: "/hackeroon-guide",
-                    },
                     {
                         id: "about",
                         name: "About",
@@ -83,9 +74,6 @@ export default async function PrizesPage() {
                 Prizes are offered on a first-come-first-serve basis.
                 <br /> Prices also may be subject to change!
             </p>
-
-            {/* TODO: Add back hackeroon guide */}
-            {/* <LinkButton href="/hackeroon-guide" text="Hackeroon Guide" /> */}
 
             <div className="w-full grow p-8 overflow-scroll overflow-x-hidden grid md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {prizes.map((prize, index) => (

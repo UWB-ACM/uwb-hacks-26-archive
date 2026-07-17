@@ -1,84 +1,27 @@
 import type { NextConfig } from "next";
 
-const cspHeader = `
-    default-src 'self';
-    script-src 'self'${process.env.NODE_ENV === "development" ? " 'unsafe-eval'" : ""} 'unsafe-inline' https://*.googletagmanager.com;
-    style-src 'self' 'unsafe-inline';
-    img-src 'self' blob: data: https://s3.amazonaws.com https://*.google-analytics.com https://*.googletagmanager.com;
-    connect-src 'self' https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com;
-    font-src 'self';
-    object-src 'none';
-    base-uri 'self';
-    form-action 'self';
-    frame-ancestors 'none';
-    frame-src https://strawpoll.com;
-    upgrade-insecure-requests;
-`;
+// When deploying to a GitHub Pages *project* site the app is served from
+// https://<user>.github.io/<repo>/, so it needs a base path. Set the
+// PAGES_BASE_PATH env var (e.g. "/uwb-hacks-26-archive") in that case. For a
+// custom domain or a user/org root site, leave it unset.
+const basePath = process.env.PAGES_BASE_PATH || "";
 
 const nextConfig: NextConfig = {
-    experimental: {
-        serverActions: {
-            bodySizeLimit: "6mb",
-        },
-    },
+    // Emit a fully static site into `out/` that GitHub Pages can serve.
+    output: "export",
+    // GitHub Pages has no image optimization server.
     images: {
-        formats: ["image/avif", "image/webp"],
-        remotePatterns: [
-            {
-                protocol: "https",
-                hostname: "placehold.co",
-            },
-            {
-                protocol: "https",
-                hostname: "lh3.googleusercontent.com",
-            },
-            {
-                protocol: "https",
-                hostname: "lh3.googleusercontent.com",
-            },
-            {
-                protocol: "https",
-                hostname: "www.gravatar.com",
-            },
-        ],
+        unoptimized: true,
     },
-    redirects() {
-        return [
-            {
-                source: "/login",
-                destination: "/api/auth/google",
-                permanent: false,
-            },
-            {
-                source: "/links/yardsign",
-                destination: "/?utm_source=yardsign",
-                permanent: false,
-            },
-            {
-                source: "/links/standingbanner",
-                destination: "/?utm_source=standingbanner",
-                permanent: false,
-            },
-            {
-                source: "/links/visits",
-                destination: "/?utm_source=visits",
-                permanent: false,
-            },
-        ];
+    basePath: basePath || undefined,
+    // Expose the base path to client code so `asset()` can prefix plain
+    // string image `src`s (which next/image does not prefix automatically).
+    env: {
+        NEXT_PUBLIC_BASE_PATH: basePath,
     },
-    headers() {
-        return [
-            {
-                source: "/(.*)",
-                headers: [
-                    {
-                        key: "Content-Security-Policy",
-                        value: cspHeader.replace(/\n/g, ""),
-                    },
-                ],
-            },
-        ];
-    },
+    // Serve every route as a folder with an index.html so refreshes / deep
+    // links resolve on a static host.
+    trailingSlash: true,
 };
 
 export default nextConfig;

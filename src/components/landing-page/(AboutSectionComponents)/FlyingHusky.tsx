@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import Image from "next/image";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { asset } from "@/src/util/asset";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -52,7 +53,7 @@ export default function FlyingHusky() {
         <div className="relative">
             <Image
                 className="flyingHusky"
-                src="/about/husky.png"
+                src={asset("/about/husky.png")}
                 alt="Husky"
                 width={350}
                 height={350}

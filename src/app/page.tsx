@@ -1,41 +1,13 @@
 import HomePage from "@/src/app/HomePage";
-import { getPrizes } from "../util/db/prize";
-import { getLeaderboard } from "../util/db/leaderboard";
-import { getSession } from "../util/session";
-import { hasPermissions, PermissionLevel } from "../util/dataTypes";
-import { getPermissionLevel } from "../util/db/user";
-import { permission } from "process";
+import { snapshotPrizes, snapshotLeaderboard } from "@/src/data/archive";
 
-export default async function Page() {
-    // The catch is to let this work in builds without databases.
-    const hackeroonPrizes = getPrizes().catch((e) => {
-        console.error(e);
-        return [];
-    });
-    const leaderboardData = getLeaderboard().catch((e) => {
-        console.error(e);
-        return [];
-    });
-
-    const isJudge = getSession()
-        .then((session) =>
-            session?.user?.id ? getPermissionLevel(session.user.id) : null,
-        )
-        .then(
-            (permission) =>
-                permission != null &&
-                hasPermissions(permission, { has: PermissionLevel.Judge }),
-        )
-        .catch((e) => {
-            console.error(e);
-            return false;
-        });
-
+export default function Page() {
+    // This is the static archive: the prize and leaderboard data that was
+    // once loaded from the database is now served from a hardcoded snapshot.
     return (
         <HomePage
-            hackeroonPrizes={hackeroonPrizes}
-            leaderboardData={leaderboardData}
-            isJudge={isJudge}
+            hackeroonPrizes={Promise.resolve(snapshotPrizes)}
+            leaderboardData={Promise.resolve(snapshotLeaderboard)}
         />
     );
 }

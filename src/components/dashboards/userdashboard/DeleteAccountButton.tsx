@@ -10,11 +10,8 @@ import {
     DialogTitle,
 } from "@/src/components/ui/dialog";
 import { DialogTrigger } from "@radix-ui/react-dialog";
-import { actionDeleteUserSelf } from "@/src/util/actions/user";
-import { useRouter } from "next/navigation";
 
 function DeleteAccountButton() {
-    const router = useRouter();
     const [isOpen, setIsOpen] = useState(false);
 
     return (
@@ -40,10 +37,7 @@ function DeleteAccountButton() {
                     <DialogFooter className="gap-2">
                         <button
                             className="bg-red-500 border border-black rounded-xl p-4"
-                            onClick={async () => {
-                                await actionDeleteUserSelf();
-                                router.refresh();
-                            }}
+                            onClick={() => setIsOpen(false)}
                         >
                             Delete Account
                         </button>

@@ -1,8 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import React from "react";
 import "@/src/styles/globals.css";
-import Consent from "@/src/components/Consent";
-import { Analytics } from "@/src/components/Analytics";
 
 const title = "UWB Hacks 2026";
 const description =
@@ -50,11 +48,7 @@ export default function RootLayout({
 }>) {
     return (
         <html lang="en">
-            <body className={`antialiased w-full`}>
-                <Consent />
-                <Analytics />
-                {children}
-            </body>
+            <body className={`antialiased w-full`}>{children}</body>
         </html>
     );
 }
