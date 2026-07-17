@@ -1,0 +1,58 @@
+import React, { useEffect, useRef } from "react";
+import gsap from "gsap";
+import ScrollTrigger from "gsap/ScrollTrigger";
+import { cn } from "@/src/util/utils";
+
+gsap.registerPlugin(ScrollTrigger);
+
+type PanelContentProps = {
+    parentPanelId: string;
+    children: React.ReactNode;
+    className?: string;
+    /**
+     * Is this likely to be a long panel?
+     */
+    long?: boolean;
+};
+
+export default function PanelContent({
+    parentPanelId,
+    children,
+    className,
+    long,
+}: PanelContentProps) {
+    const panelContentRef = useRef(null);
+
+    useEffect(() => {
+        if (!panelContentRef.current) return;
+
+        const panelContent = panelContentRef.current;
+
+        gsap.set(panelContent, { scale: 0.1, opacity: 0 });
+
+        gsap.to(panelContent, {
+            delay: 0.3,
+            scale: 1,
+            opacity: 1,
+            duration: 0.2,
+            ease: "expo.out",
+            scrollTrigger: {
+                trigger: `#${parentPanelId}`,
+                // Long panels need to kick in earlier
+                // to avoid an uncomfortable delay.
+                start: long ? "10% 80%" : "30% 80%",
+            },
+            // force3D and slight rotation properties fix subpixel gaps between the gradient overlays and the container edges during GSAP animation.
+            // Without these, a brief sliver of content bleeds through. See: https://gsap.com/community/forums/topic/27336-looking-for-help-with-element-scaling-oddities-and-jitters/
+            force3D: true,
+            rotation: 0.01,
+        });
+        // parentPanelId only passed into dependency array to satisfy ESLint. value of parentPanelId will never be changed within this component
+    }, [long, parentPanelId]);
+
+    return (
+        <div ref={panelContentRef} className={cn("p-6 md:p-10", className)}>
+            {children}
+        </div>
+    );
+}
