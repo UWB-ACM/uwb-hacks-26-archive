@@ -96,11 +96,11 @@ export const demoTransactions: Transaction[] = [
  * Names are placeholders — swap in real values if available.
  */
 export const snapshotLeaderboard: LeaderboardRecord[] = [
-    { id: 1, name: "Ada L.", picture: "", balance: 725 },
-    { id: 2, name: "Grace H.", picture: "", balance: 690 },
-    { id: 3, name: "Alan T.", picture: "", balance: 640 },
-    { id: 4, name: "Katherine J.", picture: "", balance: 610 },
-    { id: 5, name: "Demo Hacker", picture: "", balance: 350 },
+    { id: 1, name: "Vatsal Patel", picture: "", balance: 1400 },
+    { id: 2, name: "Vatsalya Dabhi", picture: "", balance: 1300 },
+    { id: 3, name: "Michael Gilbert", picture: "", balance: 1300 },
+    { id: 4, name: "Nipun Saini", picture: "", balance: 1275 },
+    { id: 5, name: "Matteo", picture: "", balance: 1225 },
 ];
 
 /**
